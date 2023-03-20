@@ -14,10 +14,15 @@
 
 declare -a breakfastMenu
 
+# loop through menu in text file
+while read item
+  do echo $item
+  done < menu.txt
 
 # Create a user prompt
 # Include the available menu items from the array
 # Bart suggested a number is how they can choose "I'll have a number 7"
+# look at Select Menu Loops in [pbs.bartificer.net/...](https://pbs.bartificer.net/pbs146)
 
 #
 
