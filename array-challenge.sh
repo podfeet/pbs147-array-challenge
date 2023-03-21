@@ -15,39 +15,39 @@
 
 declare -a breakfastMenu
 
+# DID NOT WORK - Tried to save default value of IFS to a variable and set it back afterwards but that broke up "more bacon" again into two strings
+# SAVEIFS=$IFS
+# Set IFS to anything BUT space, so that More Bacon is one entry in the resulting array
+IFS="/"
+
 # Loop through the menu.txt file and populate the breakfastMenu array
 i=0
 while read line
+  # if line contains space, replace with "\ " when added to bM
+  
   do breakfastMenu[$i]="$line"
     i=$((i+1))
   done < menu.txt
-# returns Eggs (correctly)
-echo "The menu includes ${breakfastMenu[@]}"
 
-# Need to populate a prompt list that can be called via a number
+# DID NOT WORK - Restore IFS to default
+# IFS=$SAVEIFS
 
+# Create a user prompt
+# Include the available menu items from the array
+# Bart suggested a number is how they can choose "I'll have a number 7"
+# look at Select Menu Loops in [pbs.bartificer.net/...](https://pbs.bartificer.net/pbs146)
+# 
 # this is giving a numbered list but it's seeing more and bacon as two items
 # put quotes back into menu.txt but it's still two things in the prompt
-# tried changing it to More\ Bacon but that didn't help
+# tried changing it to More\ Bacon and "More Bacon" but it still split it
 select food in ${breakfastMenu[@]}
   do
     if [[ $food == 'Done' ]]
     then
       break
     fi
-    echo "have some $food"
+    echo "Have some $food"
   done
-
-
-
-
-
-# Create a user prompt
-# Include the available menu items from the array
-# Bart suggested a number is how they can choose "I'll have a number 7"
-# look at Select Menu Loops in [pbs.bartificer.net/...](https://pbs.bartificer.net/pbs146)
-
-#
 
 # Maybe they can have more than one of something - will require counting...
 
