@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 # Written by Allison Sheridan (aka @podfeet) in 2023 under the MIT license
 # This script was written as a response to the challenge posted by
 # Bart Busschots in Programming By Stealth 146 at https://pbs.bartificer.net/pbs147
@@ -14,10 +15,32 @@
 
 declare -a breakfastMenu
 
-# loop through menu in text file
-while read item
-  do echo $item
+# Loop through the menu.txt file and populate the breakfastMenu array
+i=0
+while read line
+  do breakfastMenu[$i]="$line"
+    i=$((i+1))
   done < menu.txt
+# returns Eggs (correctly)
+echo "The menu includes ${breakfastMenu[@]}"
+
+# Need to populate a prompt list that can be called via a number
+
+# this is giving a numbered list but it's seeing more and bacon as two items
+# put quotes back into menu.txt but it's still two things in the prompt
+# tried changing it to More\ Bacon but that didn't help
+select food in ${breakfastMenu[@]}
+  do
+    if [[ $food == 'Done' ]]
+    then
+      break
+    fi
+    echo "have some $food"
+  done
+
+
+
+
 
 # Create a user prompt
 # Include the available menu items from the array
@@ -27,3 +50,42 @@ while read item
 #
 
 # Maybe they can have more than one of something - will require counting...
+
+
+
+#
+# things that didn't work
+#
+
+# cat menu.txt | while read -r item
+#   do
+#     # echo "item is $item"
+#     # Add each item with a space after it to the array breakfastMenu
+#     breakfastMenu+="$item "
+#     echo "breakfastMenu: ${breakfastMenu[@]}"
+#     # This should show 8 items but it says 1
+#     echo "There are ${#breakfastMenu[@]} items in the breakfast menu"
+    
+#   done
+#   # this should show all of the items in the array separated by spaces but nothing comes out
+#     echo "breakfastMenu: ${breakfastMenu[@]}"
+#     # this SHOULD tell me the fourth element in the array when it exists but it doesn't
+#     echo "${breakfastMenu[3]}"
+
+
+# breakfastMenu=
+#     while read item
+#       do echo $item | $breakfastMenu
+#         echo $breakfastMenu
+#       done < menu.txt
+  
+# while IFS= read -r item
+#   do breakfastMenu+=("$item")
+#   echo $breakfastMenu
+#   done < menu.txt
+
+# loop through menu in text file
+# This works to simply echo out the lines from menu.txt
+# while read item
+#   do echo $item
+#   done < menu.txt
