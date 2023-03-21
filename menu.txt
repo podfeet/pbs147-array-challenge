@@ -4,6 +4,7 @@ Spam
 Eggs
 Bacon
 Sausage
+Eggs Benedict
 Porridge
 More Bacon
 Done
